@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import ToDo from './components/ToDo.js';                                                                                                                                                                                                                                                                                                                                
+import ToDo from './components/ToDo.js';
+
 
 class App extends Component {
   constructor(props){
@@ -15,16 +16,20 @@ class App extends Component {
     };
   }
 
-handleChange(e){
-  this.setState({ newTodoDescription: e.target.value })
-}
 
 handleSubmit(e){
   e.preventDefault();
   if (!this.state.newTodoDescription) { return }
   const newTodo = { description: this.state.newTodoDescription, isCompleted: false };
   this.setState ( { todos: [ ...this.state.todos, newTodo], newTodoDescription: '' } );
+        console.log("ihwrbfk");
 }
+
+
+handleChange(e){
+  this.setState({ newTodoDescription: e.target.value })
+}
+
 
 toggleComplete(index) {
   const todos = this.state.todos.slice();
@@ -33,6 +38,24 @@ toggleComplete(index) {
   this.setState ( { todos: todos });
 }
 
+//Add a delete button to the ToDo component.
+
+//Define a deleteTodo method on the App component. This method should call this.setState() and pass it a new array that doesn't have the to-do item being deleted. Consider using the .filter() array method to accomplish this without mutating state – do not use .splice(), which is a mutable method, unless making a copy of the array first.
+
+//Pass the deleteTodo method to the ToDo component as a prop.
+
+//Add an onClick event listener to the delete button, and have it call deleteTodo, passing it the index of the to-do.
+
+
+deleteTodo(index){
+  const toDos = this.state.todos.description.isComplete.filter((toDos: toDos));
+  const todo = toDos[index];
+  this.setState({ toDos: toDos });
+  console.log("good")
+
+}
+
+
   render() {
     return (
       <div className="App">
@@ -40,12 +63,14 @@ toggleComplete(index) {
           { this.state.todos.map( ( todo, index ) =>
             < ToDo key = { index } description = { todo.description } isCompleted = { todo.isCompleted } toggleComplete = { () => this.toggleComplete(index) } />
             ) }
+
         </ul>
 
         <form onSubmit = { (e) => this.handleSubmit(e) }>
           <input type = "text" value = { this.state.newTodoDescription } onChange = { (e) => this.handleChange(e)} />
           <input type = "submit" />
         </form>
+
       </div>
     );
   }
