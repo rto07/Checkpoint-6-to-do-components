@@ -48,11 +48,11 @@ toggleComplete(index) {
 
 
 deleteTodo(index){
-  const toDos = this.state.todos.description.isComplete.filter((toDos: toDos));
-  const todo = toDos[index];
-  this.setState({ toDos: toDos });
+  const todos = this.state.todos.filter();
+  const todo = todos[index];
+  todo.isCompleted = todo.isCompleted ? false : true;
+  this.setState({ toDds: todos });
   console.log("good")
-
 }
 
 
@@ -63,13 +63,11 @@ deleteTodo(index){
           { this.state.todos.map( ( todo, index ) =>
             < ToDo key = { index } description = { todo.description } isCompleted = { todo.isCompleted } toggleComplete = { () => this.toggleComplete(index) } />
             ) }
-
-        </ul>
-
         <form onSubmit = { (e) => this.handleSubmit(e) }>
           <input type = "text" value = { this.state.newTodoDescription } onChange = { (e) => this.handleChange(e)} />
           <input type = "submit" />
         </form>
+        </ul>
 
       </div>
     );
