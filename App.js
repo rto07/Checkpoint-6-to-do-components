@@ -1,44 +1,42 @@
- import React, { Component } from 'react';
- import './App.css';
-import ToDo from './components/ToDo2.js';
+import React, { Component } from 'react';
+import './App.css';
+import ToDo from './components/ToDo.js';
 
 
- class App extends Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        todos:[
-          { description: 'Walk the cat', isCompleted: true },
-          { description: 'Throw the dishes way', isCompleted: false },
-          { description: 'Buy new dishes', isCompleted: false },
-        ],
-        newTodoDescription:""
-      };
-    }
+class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      todos: [
+        { description: 'Walk the cat', isCompleted: true },
+        { description: 'Throw the dishes away', isCompleted: false },
+        { description: 'Buy new dishes', isCompleted: false }
+      ],
+      newTodoDescription:''
+    };
+  }
 
-    handleChange(e){
-      this.setState({newTodoDescription: e.target.value})
-    }
 
-    handleSubmit(e){
-      e.preventDefault();
-      if(!this.state.newTodoDescription) {return}
-     const newTodo = { description: this.state.newTodoDescription, isCompleted: false };
-     this.setState({ todos: [...this.state.todos, newTodo], newTodoDescription:"" });   
-    }
+handleSubmit(e){
+  e.preventDefault();
+  if (!this.state.newTodoDescription) { return }
+  const newTodo = { description: this.state.newTodoDescription, isCompleted: false };
+  this.setState ( { todos: [ ...this.state.todos, newTodo], newTodoDescription: '' } );
+        console.log("ihwrbfk");
+}
 
-    toggleComplete(index){
-     const todos = this.state.todos.slice();
-     const todo = todos[index];
-     todo.isCompleted = todo.isCompleted ? false : true;
-     this.setState({todos:todos})
-    }
 
-    deleteTodo(index){
-     const todos = this.state.todos.map();
-     this.setState({todos:todos})
-     console.log("Delete Successful")
-   }
+handleChange(e){
+  this.setState({ newTodoDescription: e.target.value })
+}
+
+
+toggleComplete(index) {
+  const todos = this.state.todos.slice();
+  const todo = todos[index];
+  todo.isCompleted = todo.isCompleted ? false : true;
+  this.setState ( { todos: todos });
+}
 
 //Add a delete button to the ToDo component.
 
@@ -49,27 +47,41 @@ import ToDo from './components/ToDo2.js';
 //Add an onClick event listener to the delete button, and have it call deleteTodo, passing it the index of the to-do.
 
 
+// app.js. line 51, you are doing const todos = this.state.todos.filter(); SO you are setting a filtered set to a new variable, but you are not using filter correctly. You should have something in the parentheses that is defining what the filter is actually doing. 
 
-   render() {
-     return (
-       <div className="App">
+//Also on line 54, you have a typo in your setState, 'toDds'. 
+
+//Aside from this, you are not passing the deleteTodo function as a prop to your ToDo component, which means when your delete button is pressed, you won't trigger the delete function at all. 
+
+//Finally, while not quite required, in your ToDo component I would change the <button> tag you are using to an <input type="button"> tag. There are slight differences between the two, and I have had students get caught up on this one due to <button> not working correctly where <input type="button"> does
+
+
+deleteTodo(index){ 
+  const todos = this.state.todos.filter(index); 
+  const todo = todos[index];
+  todo.isCompleted = todo.isCompleted ? false : true;
+  this.setState({ todos: todos });
+  this.deleteTodo.bind(this);
+  console.log("delete complete")
+}
+
+
+  render() {
+    return (
+      <div className="App">
         <ul>
-          
-          {this.state.todos.map((todo, index) =>
-          
-            <ToDo key = {index} description = {todo.description} isCompleted = {todo.isCompleted} toggleComplete = { () => this.toggleComplete(index)} deleteToDo = { () => this.deleteTodo(index)}/>;
-          )}
+          { this.state.todos.map( ( todo, index ) =>
+            < ToDo key = { index } description = { todo.description } isCompleted = { todo.isCompleted } toggleComplete = { () => this.toggleComplete(index) } />
+            ) }
+        <form onSubmit = { (e) => this.handleSubmit(e) }>
+          <input type = "text" value = { this.state.newTodoDescription } onChange = { (e) => this.handleChange(e)} />
+          <input type = "submit" />
+        </form>
         </ul>
 
-        
-        <form onSubmit = {(e) => this.handleSubmit(e)}>
-          <input type = "text" value = {this.state.newTodoDescription} onChange = {(e) => this.handleChange(e)}/>
-          <input type = "submit" />
-          </form>
+      </div>
+    );
+  }
+}
 
-       </div>
-     );
-   }
- }
-
- export default App;
+export default App;
