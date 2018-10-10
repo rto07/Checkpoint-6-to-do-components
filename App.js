@@ -47,22 +47,9 @@ toggleComplete(index) {
 //Add an onClick event listener to the delete button, and have it call deleteTodo, passing it the index of the to-do.
 
 
-// app.js. line 51, you are doing const todos = this.state.todos.filter(); SO you are setting a filtered set to a new variable, but you are not using filter correctly. You should have something in the parentheses that is defining what the filter is actually doing. 
-
-//Also on line 54, you have a typo in your setState, 'toDds'. 
-
-//Aside from this, you are not passing the deleteTodo function as a prop to your ToDo component, which means when your delete button is pressed, you won't trigger the delete function at all. 
-
-//Finally, while not quite required, in your ToDo component I would change the <button> tag you are using to an <input type="button"> tag. There are slight differences between the two, and I have had students get caught up on this one due to <button> not working correctly where <input type="button"> does
-
-
 deleteTodo(index){ 
-  const todos = this.state.todos.filter(index); 
-  const todo = todos[index];
-  todo.isCompleted = todo.isCompleted ? false : true;
-  this.setState({ todos: todos });
-  this.deleteTodo.bind(this);
-  console.log("delete complete")
+  const todos = this.state.todos.filter((todo, tempIndex) => tempIndex!== index);
+  this.setState({todos:todos});
 }
 
 
@@ -71,7 +58,7 @@ deleteTodo(index){
       <div className="App">
         <ul>
           { this.state.todos.map( ( todo, index ) =>
-            < ToDo key = { index } description = { todo.description } isCompleted = { todo.isCompleted } toggleComplete = { () => this.toggleComplete(index) } />
+            < ToDo key = { index } description = { todo.description } isCompleted = { todo.isCompleted } toggleComplete = { () => this.toggleComplete(index) } deleteTodo = { () => this.deleteTodo(index) } />
             ) }
         <form onSubmit = { (e) => this.handleSubmit(e) }>
           <input type = "text" value = { this.state.newTodoDescription } onChange = { (e) => this.handleChange(e)} />
