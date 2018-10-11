@@ -50,5 +50,6 @@ toggleComplete(index) {
     );
   }
 }
+//to-do-Events checkpoint work
 
 export default App;
